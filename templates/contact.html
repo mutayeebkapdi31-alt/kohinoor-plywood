@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block content %}
+<section class="page-hero"><p class="eyebrow">CONTACT KOHINOOR</p><h1>Tell us what<br><em>you're looking for.</em></h1><p>For a quick product discussion, quote request or project enquiry, share a few details below.</p><div class="contact-shortcuts"><a href="tel:{{ business.phone }}" data-track="call_click">Call {{ business.phone }} ↗</a><a href="https://wa.me/{{ business.whatsapp }}" target="_blank" rel="noopener" data-track="whatsapp_click">WhatsApp ↗</a><a href="mailto:{{ business.email }}">Email ↗</a></div></section>
+<section class="section quote-section"><div class="quote-intro"><p class="eyebrow">GET A QUOTE</p><h2>Let's get the<br><em>details right.</em></h2><p>{{ business.address }}<br>{{ business.hours }}</p><p class="small-note">Add the approved business map location and verified address before launch.</p></div>{% include "_quote_form.html" %}</section>
+{% endblock %}

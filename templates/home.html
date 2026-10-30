@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow"><span></span> KOHINOOR PLYWOOD · EST. OVER 40 YEARS</p>
+    <h1>Built on trust.<br><em>Crafted to last.</em></h1>
+    <p class="hero-lead">Materials chosen with care. Guidance backed by experience. Plywood and interior essentials for the spaces that matter.</p>
+    <div class="hero-actions"><a class="button button-accent" href="{{ url_for('contact') }}" data-track="quote_click">Request a Quote <span>↗</span></a><a class="text-link light-link" href="https://wa.me/{{ business.whatsapp }}?text=Hello%20Kohinoor%2C%20I%20need%20help%20choosing%20plywood." target="_blank" rel="noopener" data-track="whatsapp_click">Speak on WhatsApp <span>↗</span></a></div>
+    <div class="hero-proof"><strong>40+</strong><span>years of trade<br>and relationships</span><i></i><strong>6–25</strong><span>mm plywood<br>thickness range</span></div>
+  </div>
+  <div class="hero-image" role="img" aria-label="Warm wood interior with crafted timber details">
+    <div class="image-note"><span>01 / MATERIALS WITH MEANING</span><strong>Every layer has a purpose.</strong></div>
+  </div>
+  <div class="hero-vertical">KOHINOOR TIMBER TRADERS · MUMBAI</div>
+</section>
+<section class="trust-strip"><div><b>40+ YEARS</b><span>Trade experience</span></div><div><b>READY STOCK</b><span>Multiple panel categories</span></div><div><b>EXPERT GUIDANCE</b><span>Help with grade selection</span></div><div><b>PROJECT SUPPLY</b><span>Retail · Wholesale · Bulk</span></div></section>
+<section class="section applications">
+  <div class="section-head"><div><p class="eyebrow">START WITH THE SPACE</p><h2>Materials for the<br><em>way you live.</em></h2></div><p>From a hardworking kitchen to carefully detailed furniture, find the material range that fits your project.</p></div>
+  <div class="application-grid">
+    <a class="application-card app-kitchen" href="{{ url_for('product_detail',slug='bwp-plywood') }}"><span>01 / KITCHENS</span><strong>Made for everyday use.</strong><b>Explore BWP plywood ↗</b></a>
+    <a class="application-card app-wardrobe" href="{{ url_for('product_detail',slug='calibrated-plywood') }}"><span>02 / WARDROBES</span><strong>Precision in every panel.</strong><b>Explore calibrated ply ↗</b></a>
+    <a class="application-card app-furniture" href="{{ url_for('product_detail',slug='laminates-veneers') }}"><span>03 / FURNITURE</span><strong>Finish with character.</strong><b>Explore finishes ↗</b></a>
+    <a class="application-card app-doors" href="{{ url_for('product_detail',slug='blockboards-doors') }}"><span>04 / DOORS</span><strong>Details that define a space.</strong><b>Explore doors ↗</b></a>
+  </div>
+</section>
+<section class="section featured">
+  <div class="featured-photo"></div><div class="featured-copy"><p class="eyebrow">THE SIGNATURE RANGE · KOHINOOR GOLD</p><h2>Strength at the<br><em>core of it all.</em></h2><p>Explore Kohinoor Gold BWP plywood, the hero product in our range. Discuss the right thickness and specification for your project with our team.</p><ul class="check-list"><li>Hardwood (gurjan) core, as stated in the brief</li><li>Phenolic resin bonding</li><li>Thickness options from 6 mm to 25 mm</li></ul><a class="button button-dark" href="{{ url_for('product_detail',slug='bwp-plywood') }}">Discover Kohinoor Gold <span>↗</span></a></div>
+</section>
+<section class="section product-section">
+  <div class="section-head"><div><p class="eyebrow">THE MATERIAL LIBRARY</p><h2>One source.<br><em>Many possibilities.</em></h2></div><a class="text-link" href="{{ url_for('product_listing') }}">View all categories ↗</a></div>
+  <div class="product-grid">
+    {% for p in products[:6] %}<a class="product-tile" href="{{ url_for('product_detail',slug=p.slug) }}"><div class="product-tile-img tile-{{ loop.index }}"><span>0{{ loop.index }}</span><b>↗</b></div><h3>{{ p.name }}</h3><p>{{ p.short }}</p></a>{% endfor %}
+  </div>
+</section>
+<section class="finder-banner"><div><p class="eyebrow">NOT SURE WHICH GRADE?</p><h2>Let's find the right<br><em>ply for your project.</em></h2><p>Answer a few quick questions about your space, moisture exposure and requirements.</p><a class="button button-accent" href="{{ url_for('ply_finder') }}">Try the Ply Finder <span>↗</span></a></div><div class="finder-stamp">A BETTER<br>STARTING<br>POINT <span>✳</span></div></section>
+<section class="section why-section"><div class="section-head"><div><p class="eyebrow">THE KOHINOOR APPROACH</p><h2>Good materials.<br><em>Honest guidance.</em></h2></div><p>For more than four decades, our work has been rooted in relationships, practical knowledge and dependable supply.</p></div><div class="why-grid"><div><span>01</span><h3>Experience that helps</h3><p>Guidance on grades, thicknesses and applications from a team that understands the trade.</p></div><div><span>02</span><h3>Range under one roof</h3><p>Plywood, boards, laminates, veneers, timber and hardware for different project needs.</p></div><div><span>03</span><h3>Supply that works</h3><p>Retail, wholesale and project supply for residential, commercial and industrial spaces.</p></div><div><span>04</span><h3>Relationships that last</h3><p>A family-run business trusted by generations of carpenters and trade partners.</p></div></div></section>
+<section class="audience-band"><div><p class="eyebrow">BUILT AROUND YOUR WORK</p><h2>Whatever you're building,<br><em>start with a conversation.</em></h2></div><a href="{{ url_for('professionals') }}">Architects & designers <span>↗</span></a><a href="{{ url_for('professionals') }}">Contractors & builders <span>↗</span></a><a href="{{ url_for('dealer') }}">Dealers & distributors <span>↗</span></a></section>
+<section class="section quote-section" id="quick-quote"><div class="quote-intro"><p class="eyebrow">TELL US WHAT YOU'RE WORKING ON</p><h2>A few details.<br><em>A useful next step.</em></h2><p>Share your requirement and our team can help you take it forward.</p><div class="quote-contact"><span>Prefer a direct conversation?</span><a href="tel:{{ business.phone }}" data-track="call_click">{{ business.phone }}</a></div></div>
+{% include "_quote_form.html" %}
+</section>
+{% endblock %}
