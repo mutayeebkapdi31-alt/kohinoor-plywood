@@ -3,57 +3,54 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ title or "Kohinoor Plywood" }}</title>
-  <meta name="description" content="{{ description or 'Kohinoor Timber Traders and Kohinoor Plywood — plywood, boards, laminates, veneers and timber for homes and projects.' }}">
-  <meta name="theme-color" content="#28251f">
-  <link rel="canonical" href="{{ request.url }}">
+  <title>{% block title %}Kohinoor Plywood | 40 Years of Trust{% endblock %}</title>
+  <meta name="description" content="{% block description %}Explore Kohinoor Plywood, timber, boards, laminates and interior materials. Get expert guidance and request a quote.{% endblock %}">
+  <meta name="theme-color" content="#29251f">
+  <meta property="og:title" content="{% block ogtitle %}Kohinoor Plywood{% endblock %}">
+  <meta property="og:description" content="40 years of trust. Quality that lasts generations.">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ title or 'Kohinoor Plywood' }}">
-  <meta property="og:description" content="{{ description or 'Built on Trust. Crafted to Last.' }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Organization","name":"Kohinoor Timber Traders","brand":{"@type":"Brand","name":"Kohinoor Plywood"},"email":"{{ business.email }}","telephone":"{{ business.phone }}","address":{"@type":"PostalAddress","streetAddress":"{{ business.address }}","addressCountry":"IN"}}
+  {"@context":"https://schema.org","@type":"Organization","name":"Kohinoor Plywood","description":"Plywood and interior material supplier backed by Kohinoor Timber Traders.","url":"{{ site_url }}"}
   </script>
 </head>
 <body>
-<div class="announcement">A trusted name in timber and panel products for over four decades <span>·</span> Serving Mumbai & Maharashtra</div>
+<div class="announcement">Plywood · Boards · Surfaces · Timber <span>·</span> Mumbai & Maharashtra</div>
 <header class="site-header">
-  <a class="brand" href="{{ url_for('home') }}" aria-label="Kohinoor home">
-    <span class="brand-mark">K<span>◆</span></span>
-    <span class="brand-copy"><strong>KOHINOOR</strong><small>TIMBER TRADERS</small></span>
+  <a class="brand" href="{{ url_for('home') }}" aria-label="Kohinoor Plywood home">
+    <span class="brand-mark">K<span>◆</span></span><span class="brand-copy"><b>KOHINOOR</b><small>PLYWOOD · TIMBER TRADERS</small></span>
   </a>
   <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false"><i></i><i></i></button>
-  <nav class="main-nav" aria-label="Main navigation">
+  <nav class="main-nav">
     <a href="{{ url_for('home') }}">Home</a>
-    <a href="{{ url_for('product_listing') }}">Products</a>
-    <a href="{{ url_for('ply_finder') }}">Ply Finder</a>
+    <a href="{{ url_for('products') }}">Products</a>
+    <a href="{{ url_for('ply_finder') }}">Ply Finder <span class="nav-new">TOOL</span></a>
     <a href="{{ url_for('professionals') }}">For Professionals</a>
     <a href="{{ url_for('about') }}">Our Story</a>
-    <a href="{{ url_for('resources') }}">Guides</a>
+    <a href="{{ url_for('resources') }}">Insights</a>
   </nav>
-  <a class="button button-dark header-cta" href="{{ url_for('contact') }}" data-track="quote_click">Get a Quote <span>↗</span></a>
+  <a class="header-cta" href="{{ url_for('contact') }}">Get a quote <span>↗</span></a>
 </header>
 {% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}<div class="flash-wrap">{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+  {% if messages %}<div class="flash-wrap">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
 {% endwith %}
 <main>{% block content %}{% endblock %}</main>
 <footer class="footer">
   <div class="footer-top">
-    <div><a class="brand brand-light" href="{{ url_for('home') }}"><span class="brand-mark">K<span>◆</span></span><span class="brand-copy"><strong>KOHINOOR</strong><small>TIMBER TRADERS</small></span></a><p>Built on trust. Crafted to last. A dependable source for plywood, boards, laminates, veneers, timber and hardware.</p></div>
-    <div><h4>Explore</h4><a href="{{ url_for('product_listing') }}">Products</a><a href="{{ url_for('ply_finder') }}">Ply Finder</a><a href="{{ url_for('professionals') }}">Professionals</a><a href="{{ url_for('dealer') }}">Become a Dealer</a></div>
-    <div><h4>Company</h4><a href="{{ url_for('about') }}">Our Story</a><a href="{{ url_for('resources') }}">Buying Guides</a><a href="{{ url_for('contact') }}">Contact</a></div>
-    <div><h4>Talk to our team</h4><p>{{ business.address }}</p><a href="tel:{{ business.phone }}" data-track="call_click">{{ business.phone }}</a><a href="mailto:{{ business.email }}">{{ business.email }}</a><small>{{ business.hours }}</small></div>
+    <div class="footer-brand"><a class="brand brand-light" href="{{ url_for('home') }}"><span class="brand-mark">K<span>◆</span></span><span class="brand-copy"><b>KOHINOOR</b><small>PLYWOOD · TIMBER TRADERS</small></span></a><p>{{ site_content.get('footer_text', {}).get('body') or 'Four decades of material knowledge, honest guidance and dependable supply.' }}</p></div>
+    <div><h4>Explore</h4><a href="{{ url_for('products') }}">Products</a><a href="{{ url_for('ply_finder') }}">Ply Finder</a><a href="{{ url_for('professionals') }}">For professionals</a><a href="{{ url_for('dealer') }}">Become a dealer</a></div>
+    <div><h4>Company</h4><a href="{{ url_for('about') }}">Our story</a><a href="{{ url_for('resources') }}">Resources</a><a href="{{ url_for('contact') }}">Contact</a></div>
+    <div><h4>Speak to our team</h4><p>For product guidance, project supply and dealer enquiries.</p><a href="tel:{{ phone_display|replace(' ','') }}">{{ phone_display }}</a><a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}">WhatsApp our team ↗</a></div>
   </div>
-  <div class="footer-bottom"><span>© {{ 2026 }} Kohinoor Timber Traders. All rights reserved.</span><span>Kohinoor Plywood · Quality that lasts generations.</span></div>
+  <div class="footer-bottom"><span>© {{ 2026 }} Kohinoor Timber Traders. All rights reserved.</span><span>A Kohinoor Timber Traders business</span></div>
+  <p class="disclaimer">*Product grades, certifications and warranty details are subject to verification against current certificates and product documentation before publication.</p>
 </footer>
-<div class="mobile-cta" aria-label="Quick contact">
-  <a href="{{ url_for('contact') }}" data-track="quote_click">Get Quote</a>
-  <a href="https://wa.me/{{ business.whatsapp }}?text=Hello%20Kohinoor%2C%20I%20would%20like%20to%20enquire." target="_blank" rel="noopener" data-track="whatsapp_click">WhatsApp</a>
-  <a href="tel:{{ business.phone }}" data-track="call_click">Call</a>
-</div>
-<script>window.KOHINOOR = {whatsapp:"{{ business.whatsapp }}"};</script>
+<div class="mobile-actions"><a href="{{ url_for('contact') }}">Quote</a><a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}?text=Hello%20Kohinoor%20Plywood%2C%20I%20need%20product%20information.">WhatsApp</a><a href="tel:{{ phone_display|replace(' ','') }}">Call</a></div>
+<script>window.KOHINOOR_WA="{{ whatsapp_number }}";</script>
 <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+{% block scripts %}{% endblock %}
 </body></html>

@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Kohinoor Plywood | 40 Years of Trust{% endblock %}
+{% block description %}Explore plywood, boards, laminates, veneers and timber from Kohinoor Timber Traders. Get product guidance and project quotes across Mumbai and Maharashtra.{% endblock %}
+{% block content %}
+<section class="home-hero">
+  <div class="home-hero-copy">
+    <p class="eyebrow"><span class="eyebrow-mark">◆</span> KOHINOOR TIMBER TRADERS · MUMBAI</p>
+    <h1>{{ site_content.get('home_hero', {}).get('title') or 'Materials chosen well. Work built to last.' }}</h1>
+    <p class="hero-lede">{{ site_content.get('home_hero', {}).get('body') or 'Plywood, boards, laminates, veneers and timber—backed by four decades of trade experience and practical product guidance.' }}</p>
+    <div class="hero-actions">
+      <a class="btn btn-dark" href="{{ url_for('contact') }}">Get a project quote <span>↗</span></a>
+      <a class="hero-whatsapp" target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}?text=Hello%20Kohinoor%2C%20I%27d%20like%20to%20discuss%20a%20requirement.">Speak on WhatsApp <span>↗</span></a>
+    </div>
+    <p class="hero-caption">A family-run material business · Serving Mumbai and Maharashtra</p>
+  </div>
+  <div class="home-hero-visual">
+    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=88" alt="Warm contemporary living space with natural timber finishes" fetchpriority="high">
+    <div class="hero-image-note"><span>01 / 04</span><b>Considered materials.<br>Thoughtful spaces.</b></div>
+  </div>
+</section>
+
+<section class="proof-row" aria-label="Kohinoor at a glance">
+  <div><strong>40<span>+</span></strong><p>years in the trade</p></div>
+  <div><strong>3</strong><p>trusted by generations of carpenters</p></div>
+  <div><strong>One</strong><p>source for multiple materials</p></div>
+  <div><strong>MMR</strong><p>and Maharashtra supply</p></div>
+</section>
+
+<section class="home-intro section">
+  <div class="intro-image-wrap">
+    <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85" alt="Detailed interior with warm wood cabinetry and natural finishes" loading="lazy">
+    <span class="image-index">K / MATERIALS & CRAFT</span>
+  </div>
+  <div class="intro-copy">
+    <p class="section-kicker">A MATERIAL PARTNER, NOT JUST A SUPPLIER</p>
+    <h2>{{ site_content.get('home_intro', {}).get('title') or 'Good work begins with the right material.' }}</h2>
+    <p class="intro-lede">{{ site_content.get('home_intro', {}).get('body') or 'Kohinoor Timber Traders began in timber and grew into a one-stop source for the materials that shape interiors and built spaces.' }}</p>
+    <p>From a single-sheet requirement to a larger project order, speak with a team that understands grades, applications and the realities of the work.</p>
+    <a class="underlined-link" href="{{ url_for('about') }}">Discover our story <span>↗</span></a>
+  </div>
+</section>
+
+<section class="applications-section">
+  <div class="section section-head-row">
+    <div><p class="section-kicker">START WITH THE SPACE</p><h2>What are you<br><em>building today?</em></h2></div>
+    <p>Choose an application to explore suitable materials. Not sure what you need? Our Ply Finder can help you narrow it down.</p>
+  </div>
+  <div class="application-gallery">
+    <a class="application-tile tile-kitchen" href="{{ url_for('ply_finder') }}"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=82" alt="Modern kitchen with timber cabinetry" loading="lazy"><span class="tile-number">01</span><span class="tile-label"><b>Kitchens</b><small>Plan for moisture and daily use</small></span><i>↗</i></a>
+    <a class="application-tile tile-wardrobe" href="{{ url_for('ply_finder') }}"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=82" alt="Wardrobe and bedroom joinery" loading="lazy"><span class="tile-number">02</span><span class="tile-label"><b>Wardrobes</b><small>Everyday furniture and storage</small></span><i>↗</i></a>
+    <a class="application-tile tile-furniture" href="{{ url_for('products') }}"><img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?auto=format&fit=crop&w=1000&q=82" alt="Living room furniture with wood details" loading="lazy"><span class="tile-number">03</span><span class="tile-label"><b>Furniture</b><small>Surfaces, structure and finish</small></span><i>↗</i></a>
+    <a class="application-tile tile-doors" href="{{ url_for('products') }}"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=82" alt="Interior with crafted timber door and panelling" loading="lazy"><span class="tile-number">04</span><span class="tile-label"><b>Doors & interiors</b><small>Boards and finishing materials</small></span><i>↗</i></a>
+  </div>
+</section>
+
+<section class="featured-range">
+  <div class="featured-photo"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1500&q=85" alt="Refined interior showcasing wood surfaces and cabinetry" loading="lazy"><span class="photo-caption">THE KOHINOOR MATERIAL COLLECTION</span></div>
+  <div class="featured-copy">
+    <p class="section-kicker light">THE FLAGSHIP RANGE</p>
+    <p class="eyebrow light">KOHINOOR GOLD · BWP PLYWOOD</p>
+    <h2>Confidence in<br><em>every layer.</em></h2>
+    <p>Explore our BWP plywood range for applications where moisture performance matters. Ask our team for current specifications, sizes and product documentation.</p>
+    <div class="feature-points"><span>01 <b>Hardwood core*</b></span><span>02 <b>Phenolic resin bonding*</b></span><span>03 <b>6–25 mm range*</b></span></div>
+    <a class="btn btn-cream" href="{{ url_for('product_detail', slug='bwp-plywood') }}">Explore Kohinoor Gold <span>↗</span></a>
+    <small class="feature-note">*Subject to confirmation against current product certificates and stock.</small>
+  </div>
+</section>
+
+<section class="section range-section">
+  <div class="section-head-row range-heading"><div><p class="section-kicker">THE MATERIAL LIBRARY</p><h2>Made for different<br><em>ways of working.</em></h2></div><a class="underlined-link" href="{{ url_for('products') }}">View complete range ↗</a></div>
+  <div class="range-grid">
+    {% for p in products[:4] %}
+    <article class="range-card">
+      <a class="range-card-image" href="{{ url_for('product_detail', slug=p.slug) }}"><img src="{{ p.image }}" alt="{{ p.name }} application image" loading="lazy"><span>{{ p.badge }}</span></a>
+      <div class="range-card-meta"><span>{{ p.category }}</span><span>{{ p.grade }}</span></div>
+      <h3><a href="{{ url_for('product_detail', slug=p.slug) }}">{{ p.name }}</a></h3>
+      <p>{{ p.desc }}</p>
+      <a class="arrow-link" href="{{ url_for('product_detail', slug=p.slug) }}">View product <b>↗</b></a>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="why-kohinoor">
+  <div class="why-heading"><p class="section-kicker light">WHY KOHINOOR</p><h2>Experience you can<br><em>build on.</em></h2><p>Good material decisions come from knowing the product, the application and the people doing the work.</p><a class="text-link light-link" href="{{ url_for('about') }}">More about Kohinoor ↗</a></div>
+  <div class="why-list">
+    <article><span>01</span><div><h3>Four decades in the trade</h3><p>A family-run business shaped by long-standing relationships with carpenters and professionals.</p></div></article>
+    <article><span>02</span><div><h3>Materials across the project</h3><p>Plywood, boards, laminates, veneers, timber and hardware through one source.</p></div></article>
+    <article><span>03</span><div><h3>Practical product guidance</h3><p>Talk through grade, thickness, application and quantity before you order.</p></div></article>
+  </div>
+</section>
+
+<section class="section audience-section refined-audience">
+  <div class="section-head-row"><div><p class="section-kicker">WHO WE WORK WITH</p><h2>Built around the<br><em>people who build.</em></h2></div><p>Whether you are specifying, making, building or sourcing, start a conversation with our team.</p></div>
+  <div class="audience-links">
+    <a href="{{ url_for('professionals') }}"><span>01 / PROFESSIONALS</span><b>Architects & designers</b><i>↗</i></a>
+    <a href="{{ url_for('professionals') }}"><span>02 / PROJECTS</span><b>Contractors & builders</b><i>↗</i></a>
+    <a href="{{ url_for('dealer') }}"><span>03 / PARTNERSHIPS</span><b>Dealers & distributors</b><i>↗</i></a>
+  </div>
+</section>
+
+<section class="home-contact-band">
+  <div class="home-contact-copy"><p class="section-kicker light">LET'S TALK MATERIALS</p><h2>Tell us what<br><em>you're working on.</em></h2><p>Share your requirement. We’ll help you find the right next step.</p><div class="contact-shortcuts"><a href="tel:{{ phone_display|replace(' ','') }}">Call our team ↗</a><a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}">WhatsApp ↗</a></div></div>
+  <form class="quick-quote home-quote" action="{{ url_for('quote') }}" method="post">
+    <input type="hidden" name="source_page" value="Home quick quote">
+    <label>Your name<input name="name" required placeholder="Full name" autocomplete="name"></label>
+    <label>WhatsApp number<input name="phone" required inputmode="tel" placeholder="+91" autocomplete="tel"></label>
+    <label>I’m a<select name="customer_type" required><option value="">Choose one</option><option>Homeowner</option><option>Carpenter / Contractor</option><option>Architect / Interior Designer</option><option>Builder / Project</option><option>Dealer</option></select></label>
+    <button class="btn btn-gold" type="submit">Request a call back <span>↗</span></button>
+    <small>We’ll use these details only to respond to your enquiry.</small>
+  </form>
+</section>
+{% endblock %}
