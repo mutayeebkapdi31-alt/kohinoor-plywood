@@ -1,0 +1,1 @@
+-- Use admin_full_migration.sql for the complete admin setup (products, content, inbox status, policies and seed catalogue).
