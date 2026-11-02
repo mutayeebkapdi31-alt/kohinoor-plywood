@@ -13,10 +13,7 @@
   <meta property="og:description" content="40 years of trust. Quality that lasts generations.">
   <meta property="og:type" content="website">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Font assets should be self-hosted in /static/fonts before production launch. -->
 
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
@@ -28,6 +25,11 @@
 </head>
 
 <body>
+<div class="brand-intro" aria-hidden="true">
+  <div class="intro-diamond"><svg viewBox="0 0 100 100"><path d="M50 4 90 35 50 96 10 35Z M10 35H90 M30 35 50 4 70 35 50 96 M30 35 50 55 70 35"/></svg></div>
+  <div class="intro-wordmark">KOHINOOR</div>
+  <div class="intro-ply-lines"><i></i><i></i><i></i><i></i><i></i></div>
+</div>
 
 <div class="announcement">
   Plywood · Boards · Surfaces · Timber <span>·</span> Mumbai & Maharashtra
@@ -51,7 +53,7 @@
   <nav class="main-nav">
     <a href="{{ url_for('home') }}">Home</a>
     <a href="{{ url_for('products') }}">Products</a>
-    <a href="{{ url_for('ply_finder') }}">Ply Finder <span class="nav-new">TOOL</span></a>
+    <a href="{{ url_for('ply_finder') }}">Ply Finder</a>
     <a href="{{ url_for('professionals') }}">For Professionals</a>
     <a href="{{ url_for('about') }}">Our Story</a>
     <a href="{{ url_for('resources') }}">Insights</a>
@@ -110,9 +112,8 @@
       <h4>Speak to our team</h4>
       <p>For product guidance, project supply and dealer enquiries.</p>
 
-      <a href="tel:{{ phone_display|replace(' ','') }}">{{ phone_display }}</a>
-
-      <a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}">WhatsApp our team</a>
+      {% if phone_display and phone_display != '+91 90000 00000' %}<a href="tel:{{ phone_display|replace(' ','') }}">{{ phone_display }}</a>{% endif %}
+      {% if whatsapp_number and whatsapp_number != '919000000000' %}<a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}">WhatsApp our team</a>{% endif %}
     </div>
 
   </div>
@@ -122,16 +123,13 @@
     <span>A Kohinoor Timber Traders business</span>
   </div>
 
-  <p class="disclaimer">
-    *Product grades, certifications and warranty details are subject to verification against current certificates and product documentation before publication.
-  </p>
 
 </footer>
 
 <div class="mobile-actions">
   <a href="{{ url_for('contact') }}">Quote</a>
-  <a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}?text=Hello%20Kohinoor%20Plywood%2C%20I%20need%20product%20information.">WhatsApp</a>
-  <a href="tel:{{ phone_display|replace(' ','') }}">Call</a>
+  {% if whatsapp_number %}<a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}?text=Hello%20Kohinoor%20Plywood%2C%20I%20need%20product%20information.">WhatsApp</a>{% endif %}
+  {% if phone_display %}<a href="tel:{{ phone_display|replace(' ','') }}">Call</a>{% endif %}
 </div>
 
 <script>

@@ -3,34 +3,32 @@
 {% block description %}Explore plywood, boards, laminates, veneers and timber from Kohinoor Timber Traders. Get product guidance and project quotes across Mumbai and Maharashtra.{% endblock %}
 
 {% block content %}
-<section class="home-hero">
+<section class="home-hero home-hero--immersive" aria-labelledby="hero-title">
+  <div class="hero-material-stage" aria-hidden="true">
+    <div class="hero-material-image"></div>
+    <div class="hero-ply-stack">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="hero-diamond" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M50 5 88 35 50 95 12 35Z M12 35H88 M31 35 50 5 69 35 50 95 M31 35 50 55 69 35"/></svg></div>
+  </div>
+  <div class="hero-shade"></div>
   <div class="home-hero-copy">
-    <p class="eyebrow"><span class="eyebrow-mark">◆</span> KOHINOOR TIMBER TRADERS · MUMBAI</p>
-
-    <h1>{{ site_content.get('home_hero', {}).get('title') or 'Materials chosen well. Work built to last.' }}</h1>
-
-    <p class="hero-lede">{{ site_content.get('home_hero', {}).get('body') or 'Plywood, boards, laminates, veneers and timber—backed by four decades of trade experience and practical product guidance.' }}</p>
-
+    <p class="eyebrow"><span class="eyebrow-mark">◇</span> KOHINOOR TIMBER TRADERS · MUMBAI</p>
+    <h1 id="hero-title">Every layer,<br><span>accounted for.</span></h1>
+    <p class="hero-lede">Plywood, boards, veneers and timber—selected for the work they need to do.</p>
     <div class="hero-actions">
-      <a class="btn btn-dark" href="{{ url_for('contact') }}">Get a project quote</a>
-      <a class="hero-whatsapp" target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}?text=Hello%20Kohinoor%2C%20I%27d%20like%20to%20discuss%20a%20requirement.">Speak on WhatsApp</a>
+      <a class="btn btn-dark hero-primary" href="{{ url_for('products') }}">Explore materials <span aria-hidden="true">↗</span></a>
+      {% if whatsapp_number and whatsapp_number != '919000000000' %}<a class="hero-whatsapp" target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}?text=Hello%20Kohinoor%2C%20I%27d%20like%20to%20discuss%20a%20requirement.">WhatsApp enquiry ↗</a>{% endif %}
     </div>
-
-    <p class="hero-caption">A family-run material business · Serving Mumbai and Maharashtra</p>
+    <p class="hero-caption">Trade experience · Material guidance · Mumbai & Maharashtra</p>
   </div>
-
-  <div class="home-hero-visual">
-    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=88" alt="Warm contemporary living space with natural timber finishes" fetchpriority="high">
-    <div class="hero-image-note">
-      <span>01 / 04</span>
-      <b>Considered materials.<br>Thoughtful spaces.</b>
-    </div>
-  </div>
+  <div class="hero-trustline"><span>PLYWOOD</span><i></i><span>BOARDS</span><i></i><span>VENEERS</span><i></i><span>TIMBER</span></div>
 </section>
+
 
 <section class="proof-row" aria-label="Kohinoor at a glance">
   <div><strong>40<span>+</span></strong><p>years in the trade</p></div>
-  <div><strong>3</strong><p>trusted by generations of carpenters</p></div>
+  
   <div><strong>One</strong><p>source for multiple materials</p></div>
   <div><strong>MMR</strong><p>and Maharashtra supply</p></div>
 </section>
@@ -106,14 +104,13 @@
     <p>Explore our BWP plywood range for applications where moisture performance matters. Ask our team for current specifications, sizes and product documentation.</p>
 
     <div class="feature-points">
-      <span>01 <b>Hardwood core*</b></span>
-      <span>02 <b>Phenolic resin bonding*</b></span>
-      <span>03 <b>6–25 mm range*</b></span>
+      <span><b>Moisture-conscious applications</b></span>
+      <span><b>Product guidance before you order</b></span>
+      <span><b>Current specifications on request</b></span>
     </div>
 
     <a class="btn btn-cream" href="{{ url_for('product_detail', slug='bwp-plywood') }}">Explore Kohinoor Gold</a>
 
-    <small class="feature-note">*Subject to confirmation against current product certificates and stock.</small>
   </div>
 </section>
 
@@ -225,8 +222,8 @@
     <p>Share your requirement. We’ll help you find the right next step.</p>
 
     <div class="contact-shortcuts">
-      <a href="tel:{{ phone_display|replace(' ','') }}">Call our team</a>
-      <a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}">WhatsApp</a>
+      {% if phone_display %}<a href="tel:{{ phone_display|replace(' ','') }}">Call our team</a>{% endif %}
+      {% if whatsapp_number %}<a target="_blank" rel="noopener" href="https://wa.me/{{ whatsapp_number }}">WhatsApp</a>{% endif %}
     </div>
   </div>
 
@@ -241,6 +238,16 @@
     <label>
       WhatsApp number
       <input name="phone" required inputmode="tel" placeholder="+91" autocomplete="tel">
+    </label>
+
+    <label>
+      Product / material
+      <input name="product" placeholder="e.g. plywood, board, laminate">
+    </label>
+
+    <label>
+      Approximate quantity
+      <input name="quantity" placeholder="Sheets or sq. ft.">
     </label>
 
     <label>

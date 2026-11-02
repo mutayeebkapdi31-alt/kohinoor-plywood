@@ -77,4 +77,21 @@
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({event: 'lead_form_submit', form_name: form.getAttribute('action') || location.pathname});
   }));
+
+  // Premium brand intro: first visit in this tab/session only; always skippable.
+  const intro = document.querySelector('.brand-intro');
+  if (intro) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const seen = sessionStorage.getItem('kohinoor-intro-seen');
+    const skip = () => { intro.classList.add('is-hidden'); };
+    if (reduceMotion || seen || !document.querySelector('.home-hero--immersive')) {
+      skip();
+    } else {
+      sessionStorage.setItem('kohinoor-intro-seen', '1');
+      intro.addEventListener('click', skip, { once: true });
+      window.addEventListener('scroll', skip, { once: true, passive: true });
+      window.setTimeout(skip, 1600);
+    }
+  }
+
 })();

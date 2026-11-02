@@ -56,8 +56,8 @@ SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "")
 ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH", "")
 
-WHATSAPP_NUMBER = os.getenv("WHATSAPP_NUMBER", "919000000000")
-PHONE_DISPLAY = os.getenv("PHONE_DISPLAY", "+91 90000 00000")
+WHATSAPP_NUMBER = os.getenv("WHATSAPP_NUMBER", "")
+PHONE_DISPLAY = os.getenv("PHONE_DISPLAY", "")
 SITE_URL = os.getenv("SITE_URL", "http://127.0.0.1:5000")
 
 supabase = None
@@ -76,36 +76,36 @@ PRODUCTS = [
     {
         "slug": "bwp-plywood",
         "name": "Kohinoor Gold",
-        "grade": "BWP · IS 710*",
+        "grade": "BWP grade — confirm current standard documentation",
         "category": "Plywood",
         "desc": "A dependable choice for demanding spaces where moisture resistance matters.",
         "best": "Kitchens, utility areas and high-use interiors",
         "thickness": "6, 8, 12, 16, 19, 25 mm",
-        "warranty": "Up to 21 years*",
+        "warranty": "Confirm current warranty with the team",
         "badge": "Flagship range",
         "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85"
     },
     {
         "slug": "bwr-plywood",
         "name": "Kohinoor Premium",
-        "grade": "BWR · IS 303*",
+        "grade": "BWR grade — confirm current standard documentation",
         "category": "Plywood",
         "desc": "A versatile grade for everyday interior applications with occasional moisture exposure.",
         "best": "Kitchens, wardrobes and furniture",
         "thickness": "6, 8, 12, 16, 19, 25 mm",
-        "warranty": "7–15 years*",
+        "warranty": "Confirm current warranty with the team",
         "badge": "Everyday performance",
         "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85"
     },
     {
         "slug": "mr-plywood",
         "name": "Kohinoor Classic",
-        "grade": "MR · IS 303*",
+        "grade": "MR grade — confirm current standard documentation",
         "category": "Plywood",
         "desc": "A practical interior-grade option for dry areas and general furniture work.",
         "best": "Bedrooms, wardrobes and living spaces",
         "thickness": "6, 8, 12, 16, 19, 25 mm",
-        "warranty": "7–15 years*",
+        "warranty": "Confirm current warranty with the team",
         "badge": "Interior essential",
         "image": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85"
     },
