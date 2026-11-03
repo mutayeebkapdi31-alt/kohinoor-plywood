@@ -99,15 +99,554 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 @keyframes draw-line{to{stroke-dashoffset:0}}@keyframes intro-word{to{opacity:1}}@keyframes ply-line{to{transform:scaleX(1)}}@keyframes intro-exit{0%,70%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
 @media(prefers-reduced-motion:reduce){.brand-intro{display:none!important}}
 
-/* Iteration 2 usability pass: readable form controls and touch targets */
-.home-quote label{font-size:12px;line-height:1.45}
-.home-quote input,.home-quote select{font-size:14px;min-height:46px}
-.home-quote small{font-size:12px;line-height:1.5}
-.home-quote .btn-gold{min-height:48px;font-size:13px}
-.contact-method a{overflow-wrap:anywhere}
-@media(max-width:760px){
-  .home-quote{grid-template-columns:1fr}
-  .home-quote label,.home-quote label:nth-child(4),.home-quote button,.home-quote small{grid-column:1}
-  .home-hero--immersive{height:auto;min-height:max(640px,calc(100svh - 94px));padding-bottom:100px}
-  .hero-trustline{flex-wrap:wrap;bottom:0;padding:14px 0;row-gap:8px}
+/* Iteration 2 interaction and accessibility layer */
+.brand-mark{display:grid;place-items:center;width:42px;height:42px;transform:none;color:var(--brass)}
+.brand-mark svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.15}
+.nav-products{position:relative;height:100%;display:flex;align-items:center}
+.nav-products>a{font-size:13px;font-weight:600;white-space:nowrap}
+.products-mega{position:absolute;top:calc(100% + 25px);left:50%;transform:translate(-50%,10px);width:min(720px,90vw);display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:28px;background:var(--ivory);border:1px solid var(--line);box-shadow:0 18px 45px rgba(28,24,20,.16);opacity:0;visibility:hidden;transition:opacity .2s ease,transform .2s ease,visibility .2s}
+.nav-products:hover .products-mega,.nav-products:focus-within .products-mega{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.products-mega b{display:block;font-size:11px;letter-spacing:.1em;color:var(--brass);margin-bottom:12px}
+.products-mega a{display:block;font-size:13px;padding:7px 0;color:var(--graphite)}
+.products-mega a:hover{color:var(--walnut);text-decoration:underline;text-underline-offset:4px}
+.brand-intro{animation:none;transition:opacity .35s ease,visibility .35s ease}
+.brand-intro.is-hidden{display:none}
+.catalogue-toolbar{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:24px}
+.catalogue-toolbar h2{margin:8px 0 2px}
+.catalogue-count{font-size:13px;color:var(--smoke);margin:0}
+.catalogue-search{display:flex;width:min(390px,100%);border-bottom:1px solid var(--smoke)}
+.catalogue-search input{min-width:0;flex:1;border:0;background:transparent;padding:13px 4px;font:inherit;font-size:15px;outline:none}
+.catalogue-search button{width:48px;border:0;background:var(--espresso);color:var(--ivory);font-size:24px;cursor:pointer}
+.catalogue-section .filter-pills{margin-bottom:38px}
+.empty-catalogue{grid-column:1/-1;padding:55px 20px;text-align:center;background:var(--stone)}
+.empty-catalogue h3{font-size:30px;margin:0 0 8px}
+.empty-catalogue p{color:var(--smoke)}
+.product-guidance{display:grid;grid-template-columns:1fr 1fr;gap:10%;background:var(--stone);max-width:none}
+.product-guidance>div{max-width:650px}
+.product-guidance p:not(.section-kicker){font-size:17px;line-height:1.7;color:var(--smoke)}
+.related-section{background:var(--stone);max-width:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.mobile-actions a{min-height:48px}
+@media(max-width:900px){.products-mega{position:static;transform:none;width:100%;display:none;box-shadow:none;border:0;padding:12px 15px;background:#eee7dc}.nav-products:focus-within .products-mega,.nav-products:hover .products-mega{display:grid;opacity:1;visibility:visible}.catalogue-toolbar{align-items:stretch;flex-direction:column}.catalogue-search{width:100%}.product-guidance{grid-template-columns:1fr;gap:18px}}
+@media(max-width:760px){.products-mega{grid-template-columns:1fr;gap:10px}.nav-products{display:block;height:auto}.nav-products>a{display:block;padding:13px 0}.main-nav.open{max-height:calc(100vh - 90px);overflow:auto}.catalogue-section .filter-pills{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}.catalogue-section .filter-pills a{white-space:nowrap;min-height:42px;display:flex;align-items:center}.mobile-actions{background:var(--espresso)}.mobile-actions a{background:var(--espresso);color:var(--ivory);font-size:12px}}
+@media(prefers-reduced-motion:reduce){.brand-intro{display:none!important}}
+.not-found{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:100px max(8vw,24px);background:var(--ivory)}
+.not-found h1{font-size:clamp(54px,8vw,100px);line-height:.98;margin:20px 0}
+.not-found>p:not(.section-kicker){color:var(--smoke);font-size:17px;max-width:48ch}
+.not-found>div{display:flex;align-items:center;gap:28px;margin-top:20px}
+@media(max-width:760px){body{padding-bottom:58px}.mobile-actions{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:stretch;gap:1px;padding-bottom:env(safe-area-inset-bottom)}.mobile-actions a{flex:1;display:grid;place-items:center;text-align:center;min-height:54px}.not-found>div{align-items:flex-start;flex-direction:column;gap:10px}}
+.brand-intro{visibility:hidden;opacity:0}
+.brand-intro.is-visible{visibility:visible;opacity:1}
+
+
+/* =========================================================
+   KOHINOOR HOME HERO — FIXED FULL-BLEED MATERIAL HERO
+   ========================================================= */
+
+.home-hero--immersive {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: flex-end;
+
+    width: 100%;
+    min-height: 680px;
+    height: calc(100vh - 112px);
+    height: calc(100svh - 112px);
+    max-height: 900px;
+
+    overflow: hidden;
+    padding: clamp(42px, 7.2vw, 108px);
+    margin: 0;
+
+    color: #f6f2eb;
+    background-color: #1c1814;
+}
+
+/* BACKGROUND IMAGE LAYER */
+.home-hero--immersive .hero-material-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.home-hero--immersive .hero-material-image {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: #4a3a2c;
+    background-image: url("/static/images/hero-plywood-material.webp");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    transform: scale(1.04);
+    animation: hero-material-reveal 1.2s cubic-bezier(.2, .7, .2, 1) both;
+}
+
+/* DARK GRADIENT OVERLAY */
+.home-hero--immersive .hero-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(28, 24, 20, .96) 0%,
+            rgba(28, 24, 20, .88) 28%,
+            rgba(28, 24, 20, .66) 48%,
+            rgba(28, 24, 20, .18) 78%,
+            rgba(28, 24, 20, .10) 100%
+        ),
+        linear-gradient(
+            0deg,
+            rgba(20, 16, 12, .78) 0%,
+            transparent 45%
+        );
+
+    pointer-events: none;
+}
+
+/* HERO TEXT */
+.home-hero--immersive .home-hero-copy {
+    position: relative;
+    z-index: 3;
+
+    width: min(690px, 65%);
+    max-width: 900px;
+
+    margin: 0;
+    padding: 0 0 42px;
+}
+
+.home-hero--immersive .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 0 0 28px;
+
+    color: #d4b17a;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+}
+
+.home-hero--immersive .eyebrow-mark {
+    color: #d4b17a;
+    font-size: 20px;
+}
+
+.home-hero--immersive .hero-location {
+    color: rgba(246, 242, 235, .65);
+}
+
+.home-hero--immersive h1 {
+    max-width: 760px;
+
+    margin: 0 0 26px;
+
+    color: #f6f2eb;
+    font-family: var(--serif);
+    font-size: clamp(58px, 7.7vw, 112px);
+    font-weight: 400;
+    line-height: .98;
+    letter-spacing: -.055em;
+}
+
+.home-hero--immersive .hero-title-line {
+    display: block;
+}
+
+.home-hero--immersive .hero-title-accent {
+    color: #d6b47e;
+}
+
+.home-hero--immersive .hero-lede {
+    max-width: 470px;
+
+    margin: 0;
+
+    color: rgba(246, 242, 235, .86);
+    font-size: clamp(16px, 1.35vw, 19px);
+    line-height: 1.65;
+}
+
+/* HERO BUTTONS */
+.home-hero--immersive .hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 28px;
+
+    margin-top: 34px;
+}
+
+.home-hero--immersive .hero-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 26px;
+
+    min-height: 54px;
+    padding: 16px 23px;
+
+    border: 1px solid #d4b17a;
+    border-radius: 2px;
+
+    background: #d4b17a;
+    color: #1c1814;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease;
+}
+
+.home-hero--immersive .hero-primary:hover {
+    transform: translateY(-3px);
+    background: #f0d6a9;
+}
+
+.home-hero--immersive .hero-primary span {
+    margin-left: 8px;
+}
+
+.home-hero--immersive .hero-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+
+    color: #f6f2eb;
+    font-size: 13px;
+
+    transition: color .2s ease;
+}
+
+.home-hero--immersive .hero-secondary:hover {
+    color: #d4b17a;
+}
+
+.home-hero--immersive .hero-play {
+    display: grid;
+    place-items: center;
+
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid rgba(212, 177, 122, .75);
+    border-radius: 50%;
+
+    color: #d4b17a;
+    font-size: 18px;
+}
+
+/* HERO CAPTION */
+.home-hero--immersive .hero-caption {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin: 38px 0 0;
+
+    color: rgba(246, 242, 235, .72);
+    font-size: 12px;
+    letter-spacing: .035em;
+}
+
+.home-hero--immersive .hero-caption-diamond {
+    color: #d4b17a;
+    font-size: 18px;
+}
+
+/* DECORATIVE DIAMOND */
+.home-hero--immersive .hero-diamond {
+    position: absolute;
+    z-index: 2;
+
+    top: 15%;
+    right: 10%;
+
+    width: clamp(65px, 8vw, 116px);
+
+    opacity: .7;
+    pointer-events: none;
+
+    filter: drop-shadow(0 10px 25px rgba(0, 0, 0, .3));
+}
+
+.home-hero--immersive .hero-diamond svg {
+    display: block;
+    width: 100%;
+
+    fill: none;
+    stroke: #d4b17a;
+    stroke-width: 1.1;
+}
+
+.home-hero--immersive .hero-ply-edge {
+    display: none;
+}
+
+/* SCROLL INDICATOR */
+.home-hero--immersive .hero-scroll {
+    position: absolute;
+    z-index: 4;
+
+    right: clamp(32px, 7.2vw, 108px);
+    bottom: 76px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: rgba(246, 242, 235, .75);
+    font-size: 12px;
+}
+
+.home-hero--immersive .hero-scroll-icon {
+    position: relative;
+
+    display: block;
+    width: 17px;
+    height: 29px;
+
+    border: 1px solid rgba(246, 242, 235, .7);
+    border-radius: 12px;
+}
+
+.home-hero--immersive .hero-scroll-icon::after {
+    position: absolute;
+
+    top: 6px;
+    left: 7px;
+
+    width: 1px;
+    height: 6px;
+
+    background: #d4b17a;
+    content: "";
+
+    animation: scroll-cue 1.4s ease-in-out infinite;
+}
+
+/* TRUST STRIP INSIDE HERO */
+.home-hero--immersive .hero-trustline {
+    position: absolute;
+    z-index: 4;
+
+    right: clamp(32px, 7.2vw, 108px);
+    bottom: 0;
+    left: clamp(42px, 7.2vw, 108px);
+
+    display: flex;
+    align-items: center;
+    gap: 17px;
+
+    min-height: 56px;
+    padding: 12px 0;
+
+    border-top: 1px solid rgba(246, 242, 235, .24);
+
+    color: rgba(246, 242, 235, .78);
+    font-size: 11px;
+    letter-spacing: .14em;
+}
+
+.home-hero--immersive .hero-trustline i {
+    width: 3px;
+    height: 3px;
+
+    border-radius: 50%;
+    background: #d4b17a;
+}
+
+/* ANIMATIONS */
+@keyframes hero-material-reveal {
+    from {
+        opacity: .45;
+        transform: scale(1.055);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1.015);
+    }
+}
+
+@keyframes scroll-cue {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    65% {
+        transform: translateY(7px);
+        opacity: .25;
+    }
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+    .home-hero--immersive {
+        min-height: 690px;
+        height: calc(100vh - 94px);
+        height: calc(100svh - 94px);
+
+        padding: 42px 6vw 90px;
+    }
+
+    .home-hero--immersive .hero-material-image {
+        background-size: cover;
+        background-position: 65% center;
+        opacity: .85;
+    }
+
+    .home-hero--immersive .hero-shade {
+        background:
+            linear-gradient(
+                90deg,
+                rgba(28, 24, 20, .96),
+                rgba(28, 24, 20, .78) 58%,
+                rgba(28, 24, 20, .30)
+            ),
+            linear-gradient(
+                0deg,
+                rgba(20, 16, 12, .86),
+                transparent 58%
+            );
+    }
+
+    .home-hero--immersive .home-hero-copy {
+        width: min(690px, 88%);
+        padding-bottom: 28px;
+    }
+
+    .home-hero--immersive h1 {
+        font-size: clamp(58px, 10vw, 88px);
+    }
+
+    .home-hero--immersive .hero-diamond {
+        right: 7%;
+        top: 12%;
+        width: 76px;
+        opacity: .48;
+    }
+
+    .home-hero--immersive .hero-scroll {
+        display: none;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 560px) {
+    .home-hero--immersive {
+        min-height: 690px;
+        height: auto;
+        padding: 36px 22px 88px;
+    }
+
+    .home-hero--immersive .hero-material-image {
+        background-size: cover;
+        background-position: 65% center;
+        opacity: .65;
+    }
+
+    .home-hero--immersive .hero-shade {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(28, 24, 20, .28) 0%,
+                rgba(28, 24, 20, .65) 35%,
+                #1c1814 75%,
+                #1c1814 100%
+            );
+    }
+
+    .home-hero--immersive .home-hero-copy {
+        width: 100%;
+        padding: 230px 0 0;
+    }
+
+    .home-hero--immersive .eyebrow {
+        font-size: 11px;
+        letter-spacing: .11em;
+        margin-bottom: 18px;
+    }
+
+    .home-hero--immersive h1 {
+        font-size: clamp(48px, 13vw, 68px);
+        line-height: .98;
+        margin-bottom: 18px;
+    }
+
+    .home-hero--immersive .hero-lede {
+        font-size: 16px;
+        max-width: 34ch;
+    }
+
+    .home-hero--immersive .hero-actions {
+        gap: 17px;
+        margin-top: 24px;
+    }
+
+    .home-hero--immersive .hero-primary {
+        min-height: 50px;
+        padding: 14px 17px;
+    }
+
+    .home-hero--immersive .hero-secondary {
+        font-size: 12px;
+    }
+
+    .home-hero--immersive .hero-play {
+        width: 36px;
+        height: 36px;
+    }
+
+    .home-hero--immersive .hero-caption {
+        margin-top: 24px;
+        font-size: 11px;
+    }
+
+    .home-hero--immersive .hero-diamond {
+        top: 15%;
+        right: 8%;
+        width: 54px;
+    }
+
+    .home-hero--immersive .hero-trustline {
+        left: 22px;
+        right: 22px;
+
+        gap: 8px;
+        min-height: 54px;
+
+        font-size: 9px;
+        letter-spacing: .07em;
+    }
+
+    .home-hero--immersive .hero-scroll {
+        display: none;
+    }
+}
+
+/* REDUCED MOTION ACCESSIBILITY */
+@media (prefers-reduced-motion: reduce) {
+    .home-hero--immersive .hero-material-image,
+    .home-hero--immersive .hero-scroll-icon::after {
+        animation: none !important;
+    }
 }

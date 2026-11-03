@@ -98,3 +98,42 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .intro-ply-lines i:nth-child(2){animation-delay:.28s}.intro-ply-lines i:nth-child(3){animation-delay:.36s}.intro-ply-lines i:nth-child(4){animation-delay:.44s}.intro-ply-lines i:nth-child(5){animation-delay:.52s}
 @keyframes draw-line{to{stroke-dashoffset:0}}@keyframes intro-word{to{opacity:1}}@keyframes ply-line{to{transform:scaleX(1)}}@keyframes intro-exit{0%,70%{opacity:1;visibility:visible}100%{opacity:0;visibility:hidden;pointer-events:none}}
 @media(prefers-reduced-motion:reduce){.brand-intro{display:none!important}}
+
+/* Iteration 2 interaction and accessibility layer */
+.brand-mark{display:grid;place-items:center;width:42px;height:42px;transform:none;color:var(--brass)}
+.brand-mark svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.15}
+.nav-products{position:relative;height:100%;display:flex;align-items:center}
+.nav-products>a{font-size:13px;font-weight:600;white-space:nowrap}
+.products-mega{position:absolute;top:calc(100% + 25px);left:50%;transform:translate(-50%,10px);width:min(720px,90vw);display:grid;grid-template-columns:repeat(3,1fr);gap:28px;padding:28px;background:var(--ivory);border:1px solid var(--line);box-shadow:0 18px 45px rgba(28,24,20,.16);opacity:0;visibility:hidden;transition:opacity .2s ease,transform .2s ease,visibility .2s}
+.nav-products:hover .products-mega,.nav-products:focus-within .products-mega{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.products-mega b{display:block;font-size:11px;letter-spacing:.1em;color:var(--brass);margin-bottom:12px}
+.products-mega a{display:block;font-size:13px;padding:7px 0;color:var(--graphite)}
+.products-mega a:hover{color:var(--walnut);text-decoration:underline;text-underline-offset:4px}
+.brand-intro{animation:none;transition:opacity .35s ease,visibility .35s ease}
+.brand-intro.is-hidden{display:none}
+.catalogue-toolbar{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:24px}
+.catalogue-toolbar h2{margin:8px 0 2px}
+.catalogue-count{font-size:13px;color:var(--smoke);margin:0}
+.catalogue-search{display:flex;width:min(390px,100%);border-bottom:1px solid var(--smoke)}
+.catalogue-search input{min-width:0;flex:1;border:0;background:transparent;padding:13px 4px;font:inherit;font-size:15px;outline:none}
+.catalogue-search button{width:48px;border:0;background:var(--espresso);color:var(--ivory);font-size:24px;cursor:pointer}
+.catalogue-section .filter-pills{margin-bottom:38px}
+.empty-catalogue{grid-column:1/-1;padding:55px 20px;text-align:center;background:var(--stone)}
+.empty-catalogue h3{font-size:30px;margin:0 0 8px}
+.empty-catalogue p{color:var(--smoke)}
+.product-guidance{display:grid;grid-template-columns:1fr 1fr;gap:10%;background:var(--stone);max-width:none}
+.product-guidance>div{max-width:650px}
+.product-guidance p:not(.section-kicker){font-size:17px;line-height:1.7;color:var(--smoke)}
+.related-section{background:var(--stone);max-width:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.mobile-actions a{min-height:48px}
+@media(max-width:900px){.products-mega{position:static;transform:none;width:100%;display:none;box-shadow:none;border:0;padding:12px 15px;background:#eee7dc}.nav-products:focus-within .products-mega,.nav-products:hover .products-mega{display:grid;opacity:1;visibility:visible}.catalogue-toolbar{align-items:stretch;flex-direction:column}.catalogue-search{width:100%}.product-guidance{grid-template-columns:1fr;gap:18px}}
+@media(max-width:760px){.products-mega{grid-template-columns:1fr;gap:10px}.nav-products{display:block;height:auto}.nav-products>a{display:block;padding:13px 0}.main-nav.open{max-height:calc(100vh - 90px);overflow:auto}.catalogue-section .filter-pills{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}.catalogue-section .filter-pills a{white-space:nowrap;min-height:42px;display:flex;align-items:center}.mobile-actions{background:var(--espresso)}.mobile-actions a{background:var(--espresso);color:var(--ivory);font-size:12px}}
+@media(prefers-reduced-motion:reduce){.brand-intro{display:none!important}}
+.not-found{min-height:65vh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:100px max(8vw,24px);background:var(--ivory)}
+.not-found h1{font-size:clamp(54px,8vw,100px);line-height:.98;margin:20px 0}
+.not-found>p:not(.section-kicker){color:var(--smoke);font-size:17px;max-width:48ch}
+.not-found>div{display:flex;align-items:center;gap:28px;margin-top:20px}
+@media(max-width:760px){body{padding-bottom:58px}.mobile-actions{position:fixed;left:0;right:0;bottom:0;z-index:90;display:flex;justify-content:stretch;gap:1px;padding-bottom:env(safe-area-inset-bottom)}.mobile-actions a{flex:1;display:grid;place-items:center;text-align:center;min-height:54px}.not-found>div{align-items:flex-start;flex-direction:column;gap:10px}}
+.brand-intro{visibility:hidden;opacity:0}
+.brand-intro.is-visible{visibility:visible;opacity:1}

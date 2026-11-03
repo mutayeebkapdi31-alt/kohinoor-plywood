@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Page not found | Kohinoor Plywood{% endblock %}
+{% block description %}The page you are looking for could not be found. Explore Kohinoor Plywood materials or request product guidance.{% endblock %}
+{% block content %}<section class="not-found"><p class="section-kicker">ERROR 404</p><h1>This page isn't<br>in the catalogue.</h1><p>The link may have changed or the page may no longer be available.</p><div><a class="btn btn-dark" href="{{ url_for('products') }}">Explore products ↗</a><a class="underlined-link" href="{{ url_for('home') }}">Return home</a></div></section>{% endblock %}

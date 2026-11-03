@@ -230,11 +230,10 @@ def save_lead(payload, table="quote_leads"):
 
 
 def common():
-    return {
-        "whatsapp_number": WHATSAPP_NUMBER,
-        "phone_display": PHONE_DISPLAY,
-        "site_url": SITE_URL
-    }
+    # Never expose the placeholder contact values used during development.
+    wa = "" if WHATSAPP_NUMBER.replace("+", "").replace(" ", "") in {"919000000000", "9000000000"} else WHATSAPP_NUMBER
+    phone = "" if PHONE_DISPLAY.replace("+", "").replace(" ", "").replace("-", "") in {"919000000000", "9000000000"} else PHONE_DISPLAY
+    return {"whatsapp_number": wa, "phone_display": phone, "site_url": SITE_URL}
 
 
 @app.context_processor
@@ -326,20 +325,23 @@ def products():
     category = request.args.get("category", "")
     catalogue = get_products()
 
+    search_term = request.args.get("q", "").strip().lower()
     filtered = [
         product for product in catalogue
-        if not category or product["category"] == category
+        if (not category or product["category"] == category)
+        and (not search_term or search_term in " ".join([
+            product.get("name", ""), product.get("grade", ""),
+            product.get("desc", ""), product.get("category", "")
+        ]).lower())
     ]
 
     return render_template(
-        "products.html",
-        products=filtered,
-        categories=CATEGORIES,
-        selected=category
+        "products.html", products=filtered, categories=CATEGORIES,
+        selected=category, search_term=search_term
     )
 
 
-@app.get("/<slug>")
+@app.get("/products/<slug>")
 def product_detail(slug):
     catalogue = get_products()
 
@@ -351,11 +353,16 @@ def product_detail(slug):
     if not product:
         abort(404)
 
-    return render_template(
-        "product.html",
-        product=product,
-        products=catalogue
-    )
+    related = [item for item in catalogue if item["slug"] != slug and item["category"] == product["category"]][:3]
+    return render_template("product.html", product=product, products=catalogue, related=related)
+
+
+@app.get("/<slug>")
+def legacy_product_url(slug):
+    # Keep old product links working after moving the catalogue under /products/.
+    if any(item["slug"] == slug for item in get_products()):
+        return redirect(url_for("product_detail", slug=slug), code=301)
+    abort(404)
 
 
 @app.route("/ply-finder", methods=["GET", "POST"])
@@ -574,11 +581,7 @@ def sitemap():
     ]
 
     urls += [
-        url_for(
-            "product_detail",
-            slug=product["slug"],
-            _external=True
-        )
+        url_for("product_detail", slug=product["slug"], _external=True)
         for product in get_products()
     ]
 
@@ -597,6 +600,11 @@ def sitemap():
         200,
         {"Content-Type": "application/xml"}
     )
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
 
 
 @app.get("/health")
