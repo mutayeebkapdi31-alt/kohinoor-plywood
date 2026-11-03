@@ -281,3 +281,59 @@ main{overflow:hidden}
         font-size: 25px;
     }
 }
+/* =========================================
+   FIX: MOBILE APPLICATION GALLERY
+   ========================================= */
+
+@media screen and (max-width: 680px) {
+
+    .kh-applications .kh-app-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        grid-auto-flow: row !important;
+        gap: 14px !important;
+        width: 100% !important;
+    }
+
+    .kh-applications .kh-app-grid > .kh-app-card,
+    .kh-applications .kh-app-grid > .kh-app-card:first-child {
+        width: 100% !important;
+        height: 230px !important;
+        min-height: 230px !important;
+        max-height: 230px !important;
+        grid-column: 1 !important;
+        grid-row: auto !important;
+        aspect-ratio: auto !important;
+    }
+
+    .kh-applications .kh-app-card img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block;
+    }
+
+    .kh-applications .kh-app-card > div {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+    }
+
+    .kh-applications .kh-app-card b {
+        font-size: 25px;
+    }
+
+    /* Prevent fixed mobile buttons from covering content */
+    body {
+        padding-bottom: 110px !important;
+    }
+}
+
+@media screen and (max-width: 370px) {
+    .kh-applications .kh-app-card,
+    .kh-applications .kh-app-card:first-child {
+        height: 205px !important;
+        min-height: 205px !important;
+        max-height: 205px !important;
+    }
+}
