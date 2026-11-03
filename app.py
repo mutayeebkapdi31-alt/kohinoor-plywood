@@ -56,8 +56,8 @@ SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "")
 ADMIN_PASSWORD_HASH = os.getenv("ADMIN_PASSWORD_HASH", "")
 
-WHATSAPP_NUMBER = os.getenv("WHATSAPP_NUMBER", "")
-PHONE_DISPLAY = os.getenv("PHONE_DISPLAY", "")
+WHATSAPP_NUMBER = os.getenv("WHATSAPP_NUMBER", "919000000000")
+PHONE_DISPLAY = os.getenv("PHONE_DISPLAY", "+91 90000 00000")
 SITE_URL = os.getenv("SITE_URL", "http://127.0.0.1:5000")
 
 supabase = None
@@ -76,36 +76,36 @@ PRODUCTS = [
     {
         "slug": "bwp-plywood",
         "name": "Kohinoor Gold",
-        "grade": "BWP grade — confirm current standard documentation",
+        "grade": "BWP · IS 710*",
         "category": "Plywood",
         "desc": "A dependable choice for demanding spaces where moisture resistance matters.",
         "best": "Kitchens, utility areas and high-use interiors",
         "thickness": "6, 8, 12, 16, 19, 25 mm",
-        "warranty": "Confirm current warranty with the team",
+        "warranty": "Up to 21 years*",
         "badge": "Flagship range",
         "image": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85"
     },
     {
         "slug": "bwr-plywood",
         "name": "Kohinoor Premium",
-        "grade": "BWR grade — confirm current standard documentation",
+        "grade": "BWR · IS 303*",
         "category": "Plywood",
         "desc": "A versatile grade for everyday interior applications with occasional moisture exposure.",
         "best": "Kitchens, wardrobes and furniture",
         "thickness": "6, 8, 12, 16, 19, 25 mm",
-        "warranty": "Confirm current warranty with the team",
+        "warranty": "7–15 years*",
         "badge": "Everyday performance",
         "image": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85"
     },
     {
         "slug": "mr-plywood",
         "name": "Kohinoor Classic",
-        "grade": "MR grade — confirm current standard documentation",
+        "grade": "MR · IS 303*",
         "category": "Plywood",
         "desc": "A practical interior-grade option for dry areas and general furniture work.",
         "best": "Bedrooms, wardrobes and living spaces",
         "thickness": "6, 8, 12, 16, 19, 25 mm",
-        "warranty": "Confirm current warranty with the team",
+        "warranty": "7–15 years*",
         "badge": "Interior essential",
         "image": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85"
     },
@@ -230,10 +230,11 @@ def save_lead(payload, table="quote_leads"):
 
 
 def common():
-    # Never expose the placeholder contact values used during development.
-    wa = "" if WHATSAPP_NUMBER.replace("+", "").replace(" ", "") in {"919000000000", "9000000000"} else WHATSAPP_NUMBER
-    phone = "" if PHONE_DISPLAY.replace("+", "").replace(" ", "").replace("-", "") in {"919000000000", "9000000000"} else PHONE_DISPLAY
-    return {"whatsapp_number": wa, "phone_display": phone, "site_url": SITE_URL}
+    return {
+        "whatsapp_number": WHATSAPP_NUMBER,
+        "phone_display": PHONE_DISPLAY,
+        "site_url": SITE_URL
+    }
 
 
 @app.context_processor
@@ -325,23 +326,20 @@ def products():
     category = request.args.get("category", "")
     catalogue = get_products()
 
-    search_term = request.args.get("q", "").strip().lower()
     filtered = [
         product for product in catalogue
-        if (not category or product["category"] == category)
-        and (not search_term or search_term in " ".join([
-            product.get("name", ""), product.get("grade", ""),
-            product.get("desc", ""), product.get("category", "")
-        ]).lower())
+        if not category or product["category"] == category
     ]
 
     return render_template(
-        "products.html", products=filtered, categories=CATEGORIES,
-        selected=category, search_term=search_term
+        "products.html",
+        products=filtered,
+        categories=CATEGORIES,
+        selected=category
     )
 
 
-@app.get("/products/<slug>")
+@app.get("/<slug>")
 def product_detail(slug):
     catalogue = get_products()
 
@@ -353,16 +351,11 @@ def product_detail(slug):
     if not product:
         abort(404)
 
-    related = [item for item in catalogue if item["slug"] != slug and item["category"] == product["category"]][:3]
-    return render_template("product.html", product=product, products=catalogue, related=related)
-
-
-@app.get("/<slug>")
-def legacy_product_url(slug):
-    # Keep old product links working after moving the catalogue under /products/.
-    if any(item["slug"] == slug for item in get_products()):
-        return redirect(url_for("product_detail", slug=slug), code=301)
-    abort(404)
+    return render_template(
+        "product.html",
+        product=product,
+        products=catalogue
+    )
 
 
 @app.route("/ply-finder", methods=["GET", "POST"])
@@ -581,7 +574,11 @@ def sitemap():
     ]
 
     urls += [
-        url_for("product_detail", slug=product["slug"], _external=True)
+        url_for(
+            "product_detail",
+            slug=product["slug"],
+            _external=True
+        )
         for product in get_products()
     ]
 
@@ -600,11 +597,6 @@ def sitemap():
         200,
         {"Content-Type": "application/xml"}
     )
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template("404.html"), 404
 
 
 @app.get("/health")

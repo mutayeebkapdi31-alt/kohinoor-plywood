@@ -4,14 +4,31 @@
   if (menu && nav) menu.addEventListener('click', () => {
     const open = menu.getAttribute('aria-expanded') === 'true';
     menu.setAttribute('aria-expanded', String(!open));
-    menu.setAttribute('aria-label', open ? 'Open navigation' : 'Close navigation');
     nav.classList.toggle('open', !open);
+    nav.classList.toggle('is-open', !open);
     document.body.classList.toggle('menu-open', !open);
   });
-  if (nav) nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  if (menu && nav) {
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') {
+        menu.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('open', 'is-open');
+        document.body.classList.remove('menu-open');
+      }
+    });
+    document.addEventListener('click', event => {
+      if (!nav.contains(event.target) && !menu.contains(event.target)) {
+        menu.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('open', 'is-open');
+        document.body.classList.remove('menu-open');
+      }
+    });
+  }
+
+  if (menu && nav) nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    menu.setAttribute('aria-expanded', 'false');
     nav.classList.remove('open');
-    menu?.setAttribute('aria-expanded', 'false');
-    menu?.setAttribute('aria-label', 'Open navigation');
+    nav.classList.remove('is-open');
     document.body.classList.remove('menu-open');
   }));
 
@@ -61,7 +78,15 @@
     });
   });
 
-  // Keep page content still after the single hero/intro entrance.
+  // Lightweight scroll reveal with reduced-motion support.
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('revealed'); observer.unobserve(entry.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll('.section, .product-card, .reason, .audience-grid a').forEach(el => {
+      el.classList.add('reveal'); observer.observe(el);
+    });
+  }
 
   // Track conversion intent. Replace console stub with approved GA4/GTM event wiring before launch.
   document.querySelectorAll('a[href*="wa.me"]').forEach(link => link.addEventListener('click', () => {
@@ -76,28 +101,4 @@
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({event: 'lead_form_submit', form_name: form.getAttribute('action') || location.pathname});
   }));
-
-  // Premium brand intro: once per session on the homepage only.
-  const intro = document.querySelector('.brand-intro');
-  if (intro) {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const seen = sessionStorage.getItem('kohinoor-intro-seen');
-    const isHome = Boolean(document.querySelector('.home-hero--immersive'));
-    const hideIntro = () => {
-      intro.classList.remove('is-visible');
-      intro.classList.add('is-hidden');
-      intro.setAttribute('aria-hidden', 'true');
-    };
-    if (reduceMotion || seen || !isHome) {
-      hideIntro();
-    } else {
-      intro.classList.add('is-visible');
-      intro.setAttribute('aria-hidden', 'false');
-      sessionStorage.setItem('kohinoor-intro-seen', '1');
-      intro.addEventListener('click', hideIntro, { once: true });
-      window.addEventListener('scroll', hideIntro, { once: true, passive: true });
-      window.setTimeout(hideIntro, 1550);
-    }
-  }
-
 })();
