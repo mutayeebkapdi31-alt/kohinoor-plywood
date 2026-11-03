@@ -241,3 +241,27 @@ main{overflow:hidden}
     background: #D2C2AD;
     border-bottom: 1px solid rgba(80, 60, 40, 0.2);
 }
+/* Mobile layout fix for Applications section */
+@media (max-width: 768px) {
+    .kh-app-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: auto;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .kh-app-card,
+    .kh-app-card.kh-app-tall {
+        grid-row: auto;
+        min-height: 0;
+        aspect-ratio: 3 / 4;
+        height: auto;
+    }
+
+    .kh-app-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
