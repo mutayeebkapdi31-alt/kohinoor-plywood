@@ -237,3 +237,36 @@ main{overflow:hidden}
  .kh-product-meta,.product-meta{font-size:5.5px}
 }
 @media(hover:none){.kh-product-card:hover,.product-card:hover{transform:none}}
+
+
+/* =========================================
+   KOHINOOR — MOBILE APPLICATION GALLERY FIX
+   ========================================= */
+
+@media screen and (max-width: 680px) {
+
+    .kh-applications .kh-app-grid {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-auto-flow: row !important;
+        gap: 18px !important;
+        align-items: stretch !important;
+    }
+
+    .kh-applications .kh-app-card,
+    .kh-applications .kh-app-card.kh-app-tall {
+        grid-column: 1 / -1 !important;
+        grid-row: auto !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 390px !important;
+        min-height: 390px !important;
+    }
+
+    .kh-applications .kh-app-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+}
