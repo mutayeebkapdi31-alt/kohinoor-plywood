@@ -238,40 +238,37 @@ main{overflow:hidden}
 }
 @media(hover:none){.kh-product-card:hover,.product-card:hover{transform:none}}
 
-/* =========================================
-   KOHINOOR — MOBILE SINGLE COLUMN LAYOUT
-   ========================================= */
+/* KOHINOOR — MOBILE SINGLE COLUMN APPLICATIONS */
 
 @media screen and (max-width: 680px) {
 
     .kh-applications .kh-app-grid {
-        display: flex !important;
-        flex-direction: column !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        grid-auto-flow: row !important;
+        grid-auto-rows: auto !important;
+        gap: 12px !important;
         width: 100% !important;
-        gap: 16px !important;
-        margin: 0 auto !important;
     }
 
     .kh-applications .kh-app-grid > .kh-app-card,
     .kh-applications .kh-app-grid > .kh-app-card:first-child,
     .kh-applications .kh-app-grid > .kh-app-card.kh-app-tall {
         display: block !important;
-        position: relative !important;
         width: 100% !important;
-        height: 280px !important;
-        min-height: 280px !important;
-        max-height: 280px !important;
+        height: 180px !important;
+        min-height: 180px !important;
+        max-height: 180px !important;
+        grid-column: 1 / -1 !important;
         grid-row: auto !important;
-        grid-column: auto !important;
         aspect-ratio: auto !important;
-        flex: none !important;
     }
 
     .kh-applications .kh-app-card img {
-        display: block !important;
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: cover !important;
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .kh-applications .kh-app-card > div {
@@ -279,13 +276,8 @@ main{overflow:hidden}
         right: 14px;
         bottom: 14px;
     }
-}
 
-/* Smaller mobile screens */
-@media screen and (max-width: 370px) {
-    .kh-applications .kh-app-grid > .kh-app-card {
-        height: 240px !important;
-        min-height: 240px !important;
-        max-height: 240px !important;
+    .kh-applications .kh-app-card b {
+        font-size: 25px;
     }
 }
