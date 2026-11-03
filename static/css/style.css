@@ -265,3 +265,54 @@ main{overflow:hidden}
         object-fit: cover;
     }
 }
+
+/* =================================
+   MOBILE APPLICATIONS GRID FIX
+================================= */
+
+@media screen and (max-width: 768px) {
+
+    .kh-app-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        grid-auto-flow: row !important;
+        grid-auto-rows: auto !important;
+        gap: 14px !important;
+        align-items: stretch !important;
+    }
+
+    .kh-app-grid > .kh-app-card,
+    .kh-app-grid > .kh-app-card.kh-app-tall {
+        height: auto !important;
+        min-height: 0 !important;
+        aspect-ratio: 4 / 5 !important;
+        grid-row: auto !important;
+        grid-column: auto !important;
+        width: 100% !important;
+    }
+
+    .kh-app-grid > .kh-app-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .kh-app-card > div {
+        left: 12px;
+        right: 12px;
+        bottom: 16px;
+    }
+
+    .kh-app-card b {
+        font-size: clamp(17px, 4.5vw, 25px);
+    }
+
+    .kh-app-card small {
+        font-size: 7px;
+    }
+
+    .kh-app-no {
+        top: 13px;
+        left: 13px;
+    }
+}
