@@ -270,3 +270,12 @@ main{overflow:hidden}
     }
 
 }
+.kh-marquee .kh-separator {
+    display: inline-block;
+    width: 22px;
+    height: 1px;
+    background-color: #b69a75;
+    margin: 0 22px;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
