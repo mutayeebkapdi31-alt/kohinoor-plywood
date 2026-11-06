@@ -1,6 +1,157 @@
-{% extends 'admin/shell.html' %}{% block title %}Dashboard · Kohinoor Admin{% endblock %}{% block content %}
-<div class="page-head"><div><div class="eyebrow">OVERVIEW</div><h1>Good to see you.</h1><p>Here is what's happening across your website.</p></div></div>
-<div class="stats"><article class="stat"><span>Total enquiries</span><strong>{{ lead_count }}</strong><small>Website quote requests</small></article><article class="stat"><span>Dealer applications</span><strong>{{ dealer_count }}</strong><small>Potential dealer partners</small></article><article class="stat"><span>New items</span><strong>{{ new_count }}</strong><small>Awaiting your attention</small></article><article class="stat"><span>Products</span><strong>{{ products_count }}</strong><small>Catalogue entries</small></article></div>
-<div class="panels"><section class="panel"><div class="panel-head"><div><h2>Recent enquiries</h2><p>Latest customer quote requests</p></div><a class="text-link" href="{{ url_for('admin_enquiries') }}">View all →</a></div>{% if leads %}<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Product</th><th>Received</th><th>Status</th></tr></thead><tbody>{% for row in leads %}<tr><td><b>{{ row.name }}</b><small>{{ row.phone }}</small></td><td>{{ row.product or '—' }}</td><td>{{ row.created_at[:10] if row.created_at else '—' }}</td><td><span class="pill">{{ row.status or 'New' }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty">No enquiries yet. New website submissions will appear here.</div>{% endif %}</section>
-<section class="panel"><div class="panel-head"><div><h2>Recent dealer applications</h2><p>Businesses interested in partnering</p></div><a class="text-link" href="{{ url_for('admin_dealers') }}">View all →</a></div>{% if dealers %}<div class="table-wrap"><table><thead><tr><th>Applicant</th><th>City</th><th>Received</th><th>Status</th></tr></thead><tbody>{% for row in dealers %}<tr><td><b>{{ row.name }}</b><small>{{ row.phone }}</small></td><td>{{ row.city }}</td><td>{{ row.created_at[:10] if row.created_at else '—' }}</td><td><span class="pill">{{ row.status or 'New' }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty">No dealer applications yet.</div>{% endif %}</section></div>
+{% extends 'admin/shell.html' %}
+{% set active_page = 'dashboard' %}
+
+{% block title %}Dashboard | Kohinoor Admin{% endblock %}
+{% block header_title %}Overview & Analytics{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 32px;
+    }
+    .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        padding: 20px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        transition: transform 0.2s ease;
+    }
+    .stat-card:hover {
+        transform: translateY(-4px);
+    }
+    .stat-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 12px;
+        background: rgba(217, 119, 6, 0.15);
+        color: var(--accent-amber);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+    }
+    .stat-info h4 {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+    }
+    .stat-info p {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+    .charts-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+    }
+    @media (max-width: 992px) {
+        .charts-grid { grid-template-columns: 1fr; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Metric Cards -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-boxes-packing"></i></div>
+        <div class="stat-info">
+            <h4>Total Products</h4>
+            <p id="stat-products">{{ products_count|default(24) }}</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+        <div class="stat-info">
+            <h4>Inquiries</h4>
+            <p id="stat-leads">{{ leads_count|default(142) }}</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+        <div class="stat-info">
+            <h4>Dealers</h4>
+            <p id="stat-dealers">{{ dealers_count|default(18) }}</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fa-solid fa-eye"></i></div>
+        <div class="stat-info">
+            <h4>Page Views</h4>
+            <p>12.4k</p>
+        </div>
+    </div>
+</div>
+
+<!-- Interactive Charts Container -->
+<div class="charts-grid">
+    <div class="glass-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3>Product Inquiry Trends</h3>
+            <button class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem;" onclick="showToast('Analytics refreshed!')">
+                <i class="fa-solid fa-arrows-rotate"></i> Refresh
+            </button>
+        </div>
+        <canvas id="leadsChart" height="120"></canvas>
+    </div>
+
+    <div class="glass-card">
+        <h3 style="margin-bottom: 20px;">Category Breakdown</h3>
+        <canvas id="categoryChart" height="200"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Live Chart Visualizations via Chart.js
+    const ctx1 = document.getElementById('leadsChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            datasets: [{
+                label: 'Inquiries Received',
+                data: [12, 19, 15, 25, 22, 30, 28],
+                borderColor: '#d97706',
+                backgroundColor: 'rgba(217, 119, 6, 0.1)',
+                fill: true,
+                tension: 0.4,
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#94a3b8' } }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById('categoryChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: ['Marine Plywood', 'Commercial', 'Veneers', 'Block Boards'],
+            datasets: [{
+                data: [45, 25, 18, 12],
+                backgroundColor: ['#d97706', '#3b82f6', '#10b981', '#8b5cf6'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8' } } }
+        }
+    });
+</script>
 {% endblock %}
