@@ -1,6 +1,113 @@
 {% extends 'admin/shell.html' %}{% block title %}Dashboard · Kohinoor Admin{% endblock %}{% block content %}
-<div class="page-head"><div><div class="eyebrow">OVERVIEW</div><h1>Good to see you.</h1><p>Here is what's happening across your website.</p></div></div>
-<div class="stats"><article class="stat"><span>Total enquiries</span><strong>{{ lead_count }}</strong><small>Website quote requests</small></article><article class="stat"><span>Dealer applications</span><strong>{{ dealer_count }}</strong><small>Potential dealer partners</small></article><article class="stat"><span>New items</span><strong>{{ new_count }}</strong><small>Awaiting your attention</small></article><article class="stat"><span>Products</span><strong>{{ products_count }}</strong><small>Catalogue entries</small></article></div>
-<div class="panels"><section class="panel"><div class="panel-head"><div><h2>Recent enquiries</h2><p>Latest customer quote requests</p></div><a class="text-link" href="{{ url_for('admin_enquiries') }}">View all →</a></div>{% if leads %}<div class="table-wrap"><table><thead><tr><th>Customer</th><th>Product</th><th>Received</th><th>Status</th></tr></thead><tbody>{% for row in leads %}<tr><td><b>{{ row.name }}</b><small>{{ row.phone }}</small></td><td>{{ row.product or '—' }}</td><td>{{ row.created_at[:10] if row.created_at else '—' }}</td><td><span class="pill">{{ row.status or 'New' }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty">No enquiries yet. New website submissions will appear here.</div>{% endif %}</section>
-<section class="panel"><div class="panel-head"><div><h2>Recent dealer applications</h2><p>Businesses interested in partnering</p></div><a class="text-link" href="{{ url_for('admin_dealers') }}">View all →</a></div>{% if dealers %}<div class="table-wrap"><table><thead><tr><th>Applicant</th><th>City</th><th>Received</th><th>Status</th></tr></thead><tbody>{% for row in dealers %}<tr><td><b>{{ row.name }}</b><small>{{ row.phone }}</small></td><td>{{ row.city }}</td><td>{{ row.created_at[:10] if row.created_at else '—' }}</td><td><span class="pill">{{ row.status or 'New' }}</span></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty">No dealer applications yet.</div>{% endif %}</section></div>
+
+<div class="page-head">
+    <div>
+        <div class="eyebrow">OVERVIEW</div>
+        <h1>Good to see you.</h1>
+        <p>Here is what's happening across your website.</p>
+    </div>
+</div>
+<div class="stats">
+    <article class="stat">
+        <span>Total enquiries</span>
+        <strong>{{ lead_count }}</strong>
+        <small>Website quote requests</small>
+    </article>
+    <article class="stat">
+        <span>Dealer applications</span>
+        <strong>{{ dealer_count }}</strong>
+        <small>Potential dealer partners</small>
+    </article>
+    <article class="stat">
+        <span>New items</span>
+        <strong>{{ new_count }}</strong>
+        <small>Awaiting your attention</small>
+    </article>
+    <article class="stat">
+        <span>Products</span>
+        <strong>{{ products_count }}</strong>
+        <small>Catalogue entries</small>
+    </article>
+</div>
+<div class="panels">
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h2>Recent enquiries</h2>
+                <p>Latest customer quote requests</p>
+            </div>
+            <a class="text-link" href="{{ url_for('admin_enquiries') }}">View all →</a>
+        </div>
+        {% if leads %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Received</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in leads %}
+                    <tr>
+                        <td>
+                            <b>{{ row.name }}</b>
+                            <small>{{ row.phone }}</small>
+                        </td>
+                        <td>{{ row.product or '—' }}</td>
+                        <td>{{ row.created_at[:10] if row.created_at else '—' }}</td>
+                        <td>
+                            <span class="pill">{{ row.status or 'New' }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}<div class="empty">No enquiries yet. New website submissions will appear here.</div>
+        {% endif %}
+    </section>
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h2>Recent dealer applications</h2>
+                <p>Businesses interested in partnering</p>
+            </div>
+            <a class="text-link" href="{{ url_for('admin_dealers') }}">View all →</a>
+        </div>
+        {% if dealers %}
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Applicant</th>
+                        <th>City</th>
+                        <th>Received</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in dealers %}
+                    <tr>
+                        <td>
+                            <b>{{ row.name }}</b>
+                            <small>{{ row.phone }}</small>
+                        </td>
+                        <td>{{ row.city }}</td>
+                        <td>{{ row.created_at[:10] if row.created_at else '—' }}</td>
+                        <td>
+                            <span class="pill">{{ row.status or 'New' }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}<div class="empty">No dealer applications yet.</div>
+        {% endif %}
+    </section>
+</div>
 {% endblock %}
+
